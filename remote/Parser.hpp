@@ -9,6 +9,8 @@
 #include <functional>
 #include <array>
 
+class ParserTest;
+
 class Parser : public QObject
 {
 		Q_OBJECT
@@ -27,6 +29,12 @@ class Parser : public QObject
 
 		void cmdAdd(const QList<QString> &cmd);
 		void nullHandler(const QList<QString> &);
+
+		QList<QString> tokenize(const QString &cmd) const;
+		bool hasToken(const QString &cmd, int &pos) const;
+		QString nextToken(const QString &cmd, int &pos) const;
+
+		friend ParserTest;
 
 };
 

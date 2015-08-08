@@ -1,6 +1,7 @@
 #include "Parser.hpp"
 
 #include <QStringList>
+#include <QRegExp>
 
 Parser::Parser(QObject *parent) :
 	QObject(parent),
@@ -12,7 +13,7 @@ Parser::Parser(QObject *parent) :
 
 void Parser::parse(QString command)
 {
-	const QStringList cmdlst = command.split(' ', QString::SkipEmptyParts);
+	const QStringList cmdlst = tokenize(command);
 
 	if (cmdlst.empty())
 	{
@@ -50,3 +51,41 @@ void Parser::nullHandler(const QList<QString> &)
 {
 }
 
+QList<QString> Parser::tokenize(const QString &cmd) const
+{
+	QList<QString> token;
+
+	int pos = 0;
+	while (hasToken(cmd, pos))
+	{
+		token.append(nextToken(cmd, pos));
+	}
+
+	return token;
+}
+
+bool Parser::hasToken(const QString &cmd, int &pos) const
+{
+	for (; pos < cmd.length(); pos++)
+	{
+		if (cmd.at(pos) != ' ')
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+QString Parser::nextToken(const QString &cmd, int &pos) const
+{
+	const bool quoted = cmd.at(pos) == '"';
+	const char endchar = quoted ? '"' : ' ';
+	const int start = quoted ? pos+1 : pos;
+	const int idx = cmd.indexOf(endchar, start);
+	const int end = idx >= 0 ? idx : cmd.length();
+	Q_ASSERT(end > start);
+	pos = quoted ? end+1 : end;
+	const int length = end-start;
+	return cmd.mid(start, length);
+}
