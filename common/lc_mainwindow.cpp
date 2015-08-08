@@ -1044,6 +1044,12 @@ void lcMainWindow::addPiece(const std::string &type, const std::string &color, c
 	}
 }
 
+void lcMainWindow::clearPieces()
+{
+	lcGetActiveModel()->SelectAllPieces();
+	lcGetActiveModel()->DeleteSelectedObjects();
+}
+
 // todo: call dialogs directly
 #include "lc_qimagedialog.h"
 #include "lc_qhtmldialog.h"

@@ -10,6 +10,7 @@ CommandServer::CommandServer(QObject *parent) : QObject(parent)
 void CommandServer::initialize()
 {
 	connect(&mParser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), this, SIGNAL(add(std::string,std::string,std::array<int,3>,int)));
+	connect(&mParser, SIGNAL(clear()), this, SIGNAL(clear()));
 
 	if (!mServer.listen(QHostAddress::Any, mPort))
 	{

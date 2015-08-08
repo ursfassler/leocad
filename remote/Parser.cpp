@@ -6,7 +6,8 @@
 Parser::Parser(QObject *parent) :
 	QObject(parent),
 	mCommand({
-		{"add", &Parser::cmdAdd}
+		{"add", &Parser::cmdAdd},
+		{"clear", &Parser::cmdClear}
 	})
 {
 }
@@ -45,6 +46,16 @@ void Parser::cmdAdd(const QList<QString> &cmd)
 	}
 
 	add(type.toStdString(), color.toStdString(), pos, rot);
+}
+
+void Parser::cmdClear(const QList<QString> &cmd)
+{
+	if (!cmd.empty())
+	{
+		return;
+	}
+
+	clear();
 }
 
 void Parser::nullHandler(const QList<QString> &)

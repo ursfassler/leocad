@@ -189,6 +189,7 @@ public:
 
 public slots:
 	void addPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation);
+	void clearPieces();
 
 protected slots:
 	void ClipboardChanged();

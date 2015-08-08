@@ -28,6 +28,9 @@ class ParserTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST(add_with_quoted_type);
 		CPPUNIT_TEST(add_with_quoted_color);
 
+		CPPUNIT_TEST(cmd_clear);
+		CPPUNIT_TEST(clear_does_not_allow_arguments);
+
 		CPPUNIT_TEST_SUITE_END();
 
 	public:
@@ -50,6 +53,9 @@ class ParserTest : public CPPUNIT_NS::TestFixture
 		void add();
 		void add_with_quoted_type();
 		void add_with_quoted_color();
+
+		void cmd_clear();
+		void clear_does_not_allow_arguments();
 
 	private:
 		Parser *parser = nullptr;

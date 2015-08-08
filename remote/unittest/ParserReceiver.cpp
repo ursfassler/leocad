@@ -16,3 +16,8 @@ void ParserReceiver::add(const std::string &type, const std::string &color, cons
 	this->rotation = rotation;
 }
 
+void ParserReceiver::clear()
+{
+	this->command = "clear";
+}
+

@@ -19,6 +19,7 @@ class Parser : public QObject
 
 	signals:
 		void add(const std::string &type, const std::string &color, const std::array<int,3> &pos, int rotation);
+		void clear();
 
 	public slots:
 		void parse(QString command);
@@ -28,6 +29,7 @@ class Parser : public QObject
 		const QHash<QString,PartParser> mCommand;
 
 		void cmdAdd(const QList<QString> &cmd);
+		void cmdClear(const QList<QString> &cmd);
 		void nullHandler(const QList<QString> &);
 
 		QList<QString> tokenize(const QString &cmd) const;

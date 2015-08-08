@@ -6,6 +6,7 @@ void ParserTest::setUp()
 	parser = new Parser();
 
 	QObject::connect(parser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), receiver, SLOT(add(std::string,std::string,std::array<int,3>,int)));
+	QObject::connect(parser, SIGNAL(clear()), receiver, SLOT(clear()));
 }
 
 void ParserTest::tearDown()
@@ -135,4 +136,18 @@ void ParserTest::add_with_quoted_color()
 	CPPUNIT_ASSERT_EQUAL(3, receiver->y);
 	CPPUNIT_ASSERT_EQUAL(4, receiver->z);
 	CPPUNIT_ASSERT_EQUAL(1, receiver->rotation);
+}
+
+void ParserTest::cmd_clear()
+{
+	parser->parse("clear");
+
+	CPPUNIT_ASSERT_EQUAL(std::string("clear"), receiver->command);
+}
+
+void ParserTest::clear_does_not_allow_arguments()
+{
+	parser->parse("clear all");
+
+	CPPUNIT_ASSERT_EQUAL(std::string(""), receiver->command);
 }

@@ -449,6 +449,7 @@ bool lcApplication::Initialize(int argc, char* argv[], const char* LibraryInstal
 
 	QObject::connect(&mCommandServer, SIGNAL(add(std::string,std::string,std::array<int,3>,int)),
 		gMainWindow, SLOT(addPiece(std::string,std::string,std::array<int,3>,int)));
+	QObject::connect(&mCommandServer, SIGNAL(clear()), gMainWindow, SLOT(clearPieces()));
 	mCommandServer.initialize();
 
 	return true;
