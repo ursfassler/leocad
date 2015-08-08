@@ -6,6 +6,9 @@
 #include "lc_commands.h"
 #include "lc_model.h"
 
+#include <QHash>
+#include <array>
+
 class View;
 class PiecePreview;
 class lcQGLWidget;
@@ -184,6 +187,9 @@ public:
 	lcSearchOptions mSearchOptions;
 	QAction* mActions[LC_NUM_COMMANDS];
 
+public slots:
+	void addPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation);
+
 protected slots:
 	void ClipboardChanged();
 	void ActionTriggered();
@@ -203,6 +209,12 @@ protected:
 	void CreateStatusBar();
 	void SplitView(Qt::Orientation Orientation);
 	void ShowPrintDialog();
+
+	int colorIndex(const std::string &color) const;
+	bool isKnownPiece(const PieceInfo &piece) const;
+	lcVector3 pieceOffset(const PieceInfo &piece) const;
+	PieceInfo *findPiece(const std::string &type) const;
+	lcPiece *createPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation) const;
 
 	View* mActiveView;
 	lcArray<View*> mViews;
@@ -243,6 +255,8 @@ protected:
 	QLabel* mStatusPositionLabel;
 	QLabel* mStatusSnapLabel;
 	QLabel* mStatusTimeLabel;
+
+	QHash<QString,int>	mColors;
 };
 
 extern class lcMainWindow* gMainWindow;

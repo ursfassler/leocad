@@ -47,6 +47,14 @@ lcMainWindow::lcMainWindow()
 		mRecentFiles[FileIdx] = lcGetProfileString((LC_PROFILE_KEY)(LC_PROFILE_RECENT_FILE1 + FileIdx));
 
 	gMainWindow = this;
+
+	mColors["black"] = 0;
+	mColors["blue"] = 1;
+	mColors["green"] = 2;
+	mColors["red"] = 4;
+	mColors["brown"] = 6;
+	mColors["yellow"] = 14;
+	mColors["white"] = 15;
 }
 
 lcMainWindow::~lcMainWindow()
@@ -972,6 +980,68 @@ void lcMainWindow::ShowPrintDialog()
 
 	if (PrintDialog.exec() == QDialog::Accepted)
 		Print(&Printer);
+}
+
+int lcMainWindow::colorIndex(const std::string &color) const
+{
+	return mColors.value(QString::fromStdString(color), 0);
+}
+
+bool lcMainWindow::isKnownPiece(const PieceInfo &piece) const
+{
+	return std::string(piece.m_strName) == "3001";
+}
+
+lcVector3 lcMainWindow::pieceOffset(const PieceInfo &piece) const
+{
+	return lcVector3(30, 10, 24);
+}
+
+PieceInfo *lcMainWindow::findPiece(const std::string &type) const
+{
+	lcArray<PieceInfo*> pieces;
+	lcGetPiecesLibrary()->SearchPieces(type.c_str(), pieces);
+
+	for (int i = 0; i < pieces.GetSize(); i++)
+	{
+		if (isKnownPiece(*pieces[i]))
+		{
+			return pieces[i];
+		}
+	}
+
+	return nullptr;
+}
+
+lcPiece *lcMainWindow::createPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation) const
+{
+	PieceInfo *piece = findPiece(type);
+	if (piece == nullptr)
+	{
+		return nullptr;
+	}
+
+	const lcVector3 offset = pieceOffset(*piece);
+
+	lcMatrix44 rot = lcMul(lcMatrix44Translation(offset), lcMatrix44RotationZ(rotation*LC_PI/180));
+	lcMatrix44 pos = lcMatrix44Translation(lcVector3(position[0] * 20, position[1] * 20, position[2] * 24));
+	lcMatrix44 WorldMatrix = lcMul(rot, pos);
+
+	lcPiece *Piece = new lcPiece(piece);
+	Piece->Initialize(WorldMatrix, 1);
+	Piece->SetColorIndex(colorIndex(color));
+
+	return Piece;
+}
+
+void lcMainWindow::addPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation)
+{
+	lcPiece *Piece = createPiece(type, color, position, rotation);
+	if (Piece != nullptr)
+	{
+		lcGetActiveModel()->AddPiece(Piece);
+		gMainWindow->UpdateAllViews();
+	}
 }
 
 // todo: call dialogs directly

@@ -193,6 +193,7 @@ public:
 	void RemoveStep(lcStep Step);
 
 	void AddPiece();
+	void AddPiece(lcPiece* Piece);
 	void DeleteAllCameras();
 	void DeleteSelectedObjects();
 	void ShowSelectedPiecesEarlier();
@@ -329,8 +330,6 @@ protected:
 
 	void UpdateSelection() const;
 	void SelectGroup(lcGroup* TopGroup, bool Select);
-
-	void AddPiece(lcPiece* Piece);
 
 	lcModelProperties mProperties;
 	PieceInfo* mPieceInfo;
