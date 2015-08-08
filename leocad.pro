@@ -169,7 +169,9 @@ SOURCES += common/view.cpp \
     qt/lc_qcolorlist.cpp \
     qt/lc_qfinddialog.cpp \
     qt/lc_qmodellistdialog.cpp \
-    common/lc_timelinewidget.cpp
+    common/lc_timelinewidget.cpp \
+    remote/CommandServer.cpp \
+    remote/Parser.cpp
 HEADERS += \
     common/view.h \
     common/tr.h \
@@ -229,7 +231,9 @@ HEADERS += \
     qt/lc_qcolorlist.h \
     qt/lc_qfinddialog.h \
     qt/lc_qmodellistdialog.h \
-    common/lc_timelinewidget.h
+    common/lc_timelinewidget.h \
+    remote/CommandServer.hpp \
+    remote/Parser.hpp
 FORMS += \ 
     qt/lc_qpovraydialog.ui \
     qt/lc_qarraydialog.ui \
