@@ -447,6 +447,10 @@ bool lcApplication::Initialize(int argc, char* argv[], const char* LibraryInstal
 	if (SaveImage || SaveWavefront || Save3DS)
 		return false;
 
+	QObject::connect(&mCommandServer, SIGNAL(add(std::string,std::string,std::array<int,3>,int)),
+		gMainWindow, SLOT(addPiece(std::string,std::string,std::array<int,3>,int)));
+	mCommandServer.initialize();
+
 	return true;
 }
 
