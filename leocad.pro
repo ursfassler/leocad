@@ -256,3 +256,6 @@ RESOURCES += leocad.qrc
 !win32 { 
 	TRANSLATIONS = TSFILES
 }
+
+DISTFILES += \
+    README.md
