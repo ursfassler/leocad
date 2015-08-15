@@ -25,7 +25,7 @@ class CommandServer : public QObject
 		void readyRead();
 
 	private:
-		const quint16 mPort = 29994;
+		const quint16 mPort;
 		QTcpServer mServer;
 		Parser mParser;
 

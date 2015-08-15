@@ -4,11 +4,7 @@
 #include <QRegExp>
 
 Parser::Parser(QObject *parent) :
-	QObject(parent),
-	mCommand({
-		{"add", &Parser::cmdAdd},
-		{"clear", &Parser::cmdClear}
-	})
+	QObject(parent)
 {
 }
 
@@ -22,8 +18,23 @@ void Parser::parse(QString command)
 	}
 
 	const QString cmd = cmdlst[0];
-	const PartParser parser = mCommand.value(cmd, &Parser::nullHandler);
-	parser(*this, cmdlst.mid(1, -1));
+	parse(cmd, cmdlst.mid(1, -1));
+}
+
+void Parser::parse(const QString &command, const QList<QString> &arg)
+{
+	if (command == "add")
+	{
+		cmdAdd(arg);
+	}
+	else if(command == "clear")
+	{
+		cmdClear(arg);
+	}
+	else
+	{
+		nullHandler(arg);
+	}
 }
 
 void Parser::cmdAdd(const QList<QString> &cmd)
@@ -58,7 +69,7 @@ void Parser::cmdClear(const QList<QString> &cmd)
 	clear();
 }
 
-void Parser::nullHandler(const QList<QString> &)
+void Parser::nullHandler(const QList<QString> &cmd)
 {
 }
 

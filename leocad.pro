@@ -6,7 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 	QT *= printsupport
 }
 
-INCLUDEPATH += qt common
+INCLUDEPATH += qt common remote
 CONFIG += precompile_header incremental c++11
 PRECOMPILED_HEADER = common/lc_global.h
 win32 { 

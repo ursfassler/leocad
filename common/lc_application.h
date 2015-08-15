@@ -3,7 +3,7 @@
 
 #include "lc_array.h"
 #include "str.h"
-#include <remote/CommandServer.hpp>
+#include "CommandServer.hpp"
 
 class Project;
 class lcPiecesLibrary;
@@ -63,7 +63,7 @@ protected:
 	void ParseStringArgument(int* CurArg, int argc, char* argv[], char** Value);
 
 private:
-	CommandServer	mCommandServer;
+    CommandServer	mCommandServer;
 
 };
 

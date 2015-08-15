@@ -3,7 +3,9 @@
 #include <QTcpSocket>
 #include <QApplication>
 
-CommandServer::CommandServer(QObject *parent) : QObject(parent)
+CommandServer::CommandServer(QObject *parent) :
+	QObject(parent),
+	mPort(29994)
 {
 }
 
@@ -43,6 +45,7 @@ void CommandServer::readyRead()
 	while (socket->canReadLine())
 	{
 		const QString line = socket->readLine().trimmed();
+		qDebug() << line;
 		mParser.parse(line);
 	}
 }

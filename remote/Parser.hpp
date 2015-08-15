@@ -25,12 +25,10 @@ class Parser : public QObject
 		void parse(QString command);
 
 	private:
-		typedef std::function<void(Parser &, const QList<QString> &cmd)> PartParser;
-		const QHash<QString,PartParser> mCommand;
-
+		void parse(const QString &command, const QList<QString> &arg);
 		void cmdAdd(const QList<QString> &cmd);
 		void cmdClear(const QList<QString> &cmd);
-		void nullHandler(const QList<QString> &);
+		void nullHandler(const QList<QString> &cmd);
 
 		QList<QString> tokenize(const QString &cmd) const;
 		bool hasToken(const QString &cmd, int &pos) const;
