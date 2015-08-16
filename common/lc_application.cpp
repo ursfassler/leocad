@@ -212,6 +212,8 @@ bool lcApplication::Initialize(int argc, char* argv[], const char* LibraryInstal
 	char* ProjectName = NULL;
 	char* SaveWavefrontName = NULL;
 	char* Save3DSName = NULL;
+	QString server = "127.0.0.1";
+	quint16 port = 29994;
 
 	// Parse the command line arguments.
 	for (int i = 1; i < argc; i++)
@@ -283,6 +285,18 @@ bool lcApplication::Initialize(int argc, char* argv[], const char* LibraryInstal
 
 				return false;
 			}
+			else if (strcmp(Param, "--server") == 0)
+			{
+				char *value;
+				ParseStringArgument(&i, argc, argv, &value);
+				server = value;
+			}
+			else if (strcmp(Param, "--port") == 0)
+			{
+				int value;
+				ParseIntegerArgument(&i, argc, argv, &value);
+				port = value;
+			}
 			else if ((strcmp(Param, "-?") == 0) || (strcmp(Param, "--help") == 0))
 			{
 				printf("Usage: leocad [options] [file]\n");
@@ -296,6 +310,8 @@ bool lcApplication::Initialize(int argc, char* argv[], const char* LibraryInstal
 //				printf("  --highlight: Highlight pieces in the steps they appear.\n");
 				printf("  -wf, --export-wavefront <outfile.obj>: Exports the model to Wavefront format.\n");
 				printf("  -3ds, --export-3ds <outfile.3ds>: Exports the model to 3DS format.\n");
+				printf("  --server <address|name>: connect to this address or name instead default (%s)\n", server.toStdString().c_str());
+				printf("  --port <port>: connect to this port instead default (%i)\n", (int)port);
 				printf("  \n");
 
 				return false;
@@ -447,10 +463,10 @@ bool lcApplication::Initialize(int argc, char* argv[], const char* LibraryInstal
 	if (SaveImage || SaveWavefront || Save3DS)
 		return false;
 
-    QObject::connect(&mCommandServer, SIGNAL(add(std::string,std::string,std::array<int,3>,int)),
-        gMainWindow, SLOT(addPiece(std::string,std::string,std::array<int,3>,int)));
-    QObject::connect(&mCommandServer, SIGNAL(clear()), gMainWindow, SLOT(clearPieces()));
-    mCommandServer.initialize();
+	QObject::connect(&mCommandServer, SIGNAL(add(std::string,std::string,std::array<int,3>,int)),
+			 gMainWindow, SLOT(addPiece(std::string,std::string,std::array<int,3>,int)));
+	QObject::connect(&mCommandServer, SIGNAL(clear()), gMainWindow, SLOT(clearPieces()));
+	mCommandServer.connect(server, port);
 
 	return true;
 }
