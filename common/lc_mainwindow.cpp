@@ -55,6 +55,11 @@ lcMainWindow::lcMainWindow()
 	mColors["brown"] = 6;
 	mColors["yellow"] = 14;
 	mColors["white"] = 15;
+
+	mPieceOffset["3001"] = lcVector3(30, 10, 24);
+	mPieceOffset["3003"] = lcVector3(10, 10, 24);
+	mPieceOffset["3867"] = lcVector3(150, 150, 24);
+	mPieceOffset["3028"] = lcVector3(110, 50, 24);
 }
 
 lcMainWindow::~lcMainWindow()
@@ -989,12 +994,12 @@ int lcMainWindow::colorIndex(const QString &color) const
 
 bool lcMainWindow::isKnownPiece(const PieceInfo &piece) const
 {
-	return std::string(piece.m_strName) == "3001";
+	return mPieceOffset.contains(piece.m_strName);
 }
 
 lcVector3 lcMainWindow::pieceOffset(const PieceInfo &piece) const
 {
-	return lcVector3(30, 10, 24);
+	return mPieceOffset.value(piece.m_strName, lcVector3(0, 0, 0));
 }
 
 PieceInfo *lcMainWindow::findPiece(const QString &type) const

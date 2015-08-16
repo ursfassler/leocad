@@ -258,6 +258,7 @@ protected:
 	QLabel* mStatusTimeLabel;
 
 	QHash<QString,int>	mColors;
+	QHash<QString,lcVector3> mPieceOffset;
 };
 
 extern class lcMainWindow* gMainWindow;

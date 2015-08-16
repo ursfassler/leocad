@@ -45,6 +45,9 @@ And remove all
 Only a subset of bricks are supported. These are:
 
 * 3001, "Brick 2 x 4"
+* 3003, "Brick 2 x 2"
+* 3028, "Plate 6 x 12"
+* 3867, "Baseplate 16 x 16"
 
 Only a subset of colors are supported. These are
 
