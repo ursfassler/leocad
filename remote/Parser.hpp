@@ -1,34 +1,41 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
+#include "CommandParser.hpp"
+
 #include <QObject>
 #include <QString>
 #include <QHash>
 #include <QList>
+#include <QStringList>
+#include <QSet>
 
 #include <array>
 
-class Parser : public QObject
+
+class ParserTest;
+
+class Parser : public CommandParserOutput
 {
 		Q_OBJECT
 	public:
-		explicit Parser(QObject *parent = 0);
+		Parser();
+		~Parser();
 
-	signals:
-		void nop();
-		void hello(const std::string &sub, const std::string &whom);
-		void add(const std::string &type, const std::string &color, const std::array<int,3> &pos, int rotation);
-		void clear();
+		CommandParser *getCmdParser(QString cmd);
 
 	public slots:
 		void parse(const QList<QString> &command);
 
 	private:
+		QSet<CommandParser*> mCmdParser;
+
 		void parse(const QString &command, const QList<QString> &arg);
-		void cmdHello(const QList<QString> &cmd);
-		void cmdAdd(const QList<QString> &cmd);
-		void cmdClear(const QList<QString> &cmd);
-		void nullHandler(const QList<QString> &cmd);
+
+		QString unknownCommandMsg(const QString &command, const QList<QString> &arg) const;
+		QString argCountErrorMsg(QString command, int expected, int received) const;
+
+		friend ParserTest;
 };
 
 #endif // PARSER_HPP

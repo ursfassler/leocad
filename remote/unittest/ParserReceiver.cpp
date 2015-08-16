@@ -5,6 +5,12 @@ ParserReceiver::ParserReceiver(QObject *parent) : QObject(parent)
 
 }
 
+void ParserReceiver::error(const std::string &msg)
+{
+	this->command = "error";
+	this->errorMsg = msg;
+}
+
 void ParserReceiver::nop()
 {
 	this->command = "nop";

@@ -1,10 +1,13 @@
 #include "ParserTest.hpp"
 
+#include "Commands.hpp"
+
 void ParserTest::setUp()
 {
 	receiver = new ParserReceiver();
 	parser = new Parser();
 
+	QObject::connect(parser, SIGNAL(error(std::string)), receiver, SLOT(error(std::string)));
 	QObject::connect(parser, SIGNAL(nop()), receiver, SLOT(nop()));
 	QObject::connect(parser, SIGNAL(hello(std::string,std::string)), receiver, SLOT(hello(std::string,std::string)));
 	QObject::connect(parser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), receiver, SLOT(add(std::string,std::string,std::array<int,3>,int)));
@@ -28,36 +31,64 @@ void ParserTest::cmd_nop()
 
 void ParserTest::cmd_hello()
 {
-	parser->parse({"hello", "from", "Parser Unit Test"});
-
-	CPPUNIT_ASSERT_EQUAL(std::string("hello"), receiver->command);
-	CPPUNIT_ASSERT_EQUAL(std::string("from"), receiver->sub);
-	CPPUNIT_ASSERT_EQUAL(std::string("Parser Unit Test"), receiver->whom);
+	CommandParser *cmd = parser->getCmdParser("hello");
+	CPPUNIT_ASSERT(dynamic_cast<CmdHello*>(cmd) != nullptr);
 }
 
-void ParserTest::add()
+void ParserTest::cmd_add()
 {
-	parser->parse({"add", "3001", "red",  "2", "3", "4", "1"});
-
-	CPPUNIT_ASSERT_EQUAL(std::string("add"), receiver->command);
-	CPPUNIT_ASSERT_EQUAL(std::string("3001"), receiver->type);
-	CPPUNIT_ASSERT_EQUAL(std::string("red"), receiver->color);
-	CPPUNIT_ASSERT_EQUAL(2, receiver->x);
-	CPPUNIT_ASSERT_EQUAL(3, receiver->y);
-	CPPUNIT_ASSERT_EQUAL(4, receiver->z);
-	CPPUNIT_ASSERT_EQUAL(1, receiver->rotation);
+	CommandParser *cmd = parser->getCmdParser("add");
+	CPPUNIT_ASSERT(dynamic_cast<CmdAdd*>(cmd) != nullptr);
 }
 
 void ParserTest::cmd_clear()
 {
-	parser->parse({"clear"});
-
-	CPPUNIT_ASSERT_EQUAL(std::string("clear"), receiver->command);
+	CommandParser *cmd = parser->getCmdParser("clear");
+	CPPUNIT_ASSERT(dynamic_cast<CmdClear*>(cmd) != nullptr);
 }
 
-void ParserTest::clear_does_not_allow_arguments()
+void ParserTest::argCountErrorMsg_0_1()
 {
-	parser->parse({"clear", "all"});
-
-	CPPUNIT_ASSERT_EQUAL(std::string(""), receiver->command);
+	const QString msg = parser->argCountErrorMsg("CMD", 0, 1);
+	CPPUNIT_ASSERT_EQUAL(std::string("command CMD expects 0 arguments, got 1"), msg.toStdString());
 }
+
+void ParserTest::argCountErrorMsg_1_0()
+{
+	const QString msg = parser->argCountErrorMsg("test test", 1, 0);
+	CPPUNIT_ASSERT_EQUAL(std::string("command test test expects 1 arguments, got 0"), msg.toStdString());
+}
+
+void ParserTest::argCountErrorMsg_4_9()
+{
+	const QString msg = parser->argCountErrorMsg("", 4, 9);
+	CPPUNIT_ASSERT_EQUAL(std::string("command  expects 4 arguments, got 9"), msg.toStdString());
+}
+
+void ParserTest::send_error_on_wrong_argument_count()
+{
+	parser->parse("clear", {"this"});
+	CPPUNIT_ASSERT_EQUAL(std::string("error"), receiver->command);
+	CPPUNIT_ASSERT_EQUAL(std::string("command clear expects 0 arguments, got 1"), receiver->errorMsg);
+}
+
+void ParserTest::unknownCommandMsg()
+{
+	const QString msg = parser->unknownCommandMsg("CMD", {});
+	CPPUNIT_ASSERT_EQUAL(std::string("unknown command: CMD"), msg.toStdString());
+}
+
+void ParserTest::unknownCommandMsg_with_arguments()
+{
+	const QString msg = parser->unknownCommandMsg("CMD", {"arg1", "arg2"});
+	CPPUNIT_ASSERT_EQUAL(std::string("unknown command: CMD arg1 arg2"), msg.toStdString());
+}
+
+void ParserTest::send_error_on_on_unknown_cmd()
+{
+	parser->parse("lala", {});
+	CPPUNIT_ASSERT_EQUAL(std::string("error"), receiver->command);
+	CPPUNIT_ASSERT_EQUAL(std::string("unknown command: lala"), receiver->errorMsg);
+}
+
+

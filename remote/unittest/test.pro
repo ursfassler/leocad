@@ -15,7 +15,11 @@ SOURCES += main.cpp \
     ParserReceiver.cpp \
     TokenizerTest.cpp \
     ../Tokenizer.cpp \
-    TokenizerReceiver.cpp
+    TokenizerReceiver.cpp \
+    CommandParserTest.cpp \
+    CommandsTest.cpp \
+    ../CommandParser.cpp \
+    ../Commands.cpp
 
 HEADERS += \
     ParserTest.hpp \
@@ -23,4 +27,8 @@ HEADERS += \
     ParserReceiver.hpp \
     TokenizerTest.hpp \
     ../Tokenizer.hpp \
-    TokenizerReceiver.hpp
+    TokenizerReceiver.hpp \
+    CommandParserTest.hpp \
+    CommandsTest.hpp \
+    ../CommandParser.hpp \
+    ../Commands.hpp

@@ -172,7 +172,9 @@ SOURCES += common/view.cpp \
     common/lc_timelinewidget.cpp \
     remote/Parser.cpp \
     remote/ServerConnection.cpp \
-    remote/Tokenizer.cpp
+    remote/Tokenizer.cpp \
+    remote/CommandParser.cpp \
+    remote/Commands.cpp
 HEADERS += \
     common/view.h \
     common/tr.h \
@@ -235,7 +237,9 @@ HEADERS += \
     common/lc_timelinewidget.h \
     remote/Parser.hpp \
     remote/ServerConnection.hpp \
-    remote/Tokenizer.hpp
+    remote/Tokenizer.hpp \
+    remote/CommandParser.hpp \
+    remote/Commands.hpp
 FORMS += \ 
     qt/lc_qpovraydialog.ui \
     qt/lc_qarraydialog.ui \

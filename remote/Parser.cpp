@@ -1,11 +1,36 @@
 #include "Parser.hpp"
 
-#include <QStringList>
-#include <QRegExp>
+#include "Commands.hpp"
 
-Parser::Parser(QObject *parent) :
-	QObject(parent)
+#include <QStringList>
+
+
+Parser::Parser()
 {
+	mCmdParser.insert(new CmdHello(*this));
+	mCmdParser.insert(new CmdAdd(*this));
+	mCmdParser.insert(new CmdClear(*this));
+}
+
+Parser::~Parser()
+{
+	foreach (CommandParser *itr, mCmdParser)
+	{
+		delete itr;
+	}
+	mCmdParser.clear();
+}
+
+CommandParser *Parser::getCmdParser(QString cmd)
+{
+	foreach (CommandParser *itr, mCmdParser)
+	{
+		if (itr->commmand() == cmd)
+		{
+			return itr;
+		}
+	}
+	return nullptr;
 }
 
 void Parser::parse(const QList<QString> &command)
@@ -24,67 +49,38 @@ void Parser::parse(const QList<QString> &command)
 
 void Parser::parse(const QString &command, const QList<QString> &arg)
 {
-	if (command == "hello")
+	CommandParser *parser = getCmdParser(command);
+	if (parser == nullptr)
 	{
-		cmdHello(arg);
-	}
-	else if (command == "add")
-	{
-		cmdAdd(arg);
-	}
-	else if(command == "clear")
-	{
-		cmdClear(arg);
-	}
-	else
-	{
-		nullHandler(arg);
-	}
-}
-
-void Parser::cmdHello(const QList<QString> &cmd)
-{
-	if (cmd.size() != 2)
-	{
+		const QString msg = unknownCommandMsg(command, arg);
+		error(msg.toStdString());
 		return;
 	}
 
-	hello(cmd[0].toStdString(), cmd[1].toStdString());
-}
-
-void Parser::cmdAdd(const QList<QString> &cmd)
-{
-	if (cmd.size() != 6)
+	if (arg.size() != int(parser->argumentCount()))
 	{
+		const QString msg = argCountErrorMsg(command, parser->argumentCount(), arg.size());
+		error(msg.toStdString());
 		return;
 	}
 
-	bool ok = true;
-
-	const QString type = cmd[0];
-	const QString color = cmd[1];
-	const std::array<int,3> pos = { cmd[2].toInt(&ok), cmd[3].toInt(&ok), cmd[4].toInt(&ok) };
-	const int rot = cmd[5].toInt(&ok);
-
-	if (!ok)
-	{
-		return;
-	}
-
-	add(type.toStdString(), color.toStdString(), pos, rot);
+	parser->parse(arg);
 }
 
-void Parser::cmdClear(const QList<QString> &cmd)
+QString Parser::unknownCommandMsg(const QString &command, const QList<QString> &arg) const
 {
-	if (!cmd.empty())
+	QString msg = "unknown command: " + command;
+	foreach (const QString &itr, arg)
 	{
-		return;
+		msg += " " + itr;
 	}
-
-	clear();
+	return msg;
 }
 
-void Parser::nullHandler(const QList<QString> &)
+QString Parser::argCountErrorMsg(QString command, int expected, int received) const
 {
+	return
+		"command " + command + " expects " +
+		QString::number(expected) + " arguments, got " +
+		QString::number(received);
 }
-
