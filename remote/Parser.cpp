@@ -8,18 +8,17 @@ Parser::Parser(QObject *parent) :
 {
 }
 
-void Parser::parse(QString command)
+void Parser::parse(const QList<QString> &command)
 {
-	const QStringList cmdlst = tokenize(command);
-
-	if (cmdlst.empty())
+	if (command.empty())
 	{
 		nop();
 	}
 	else
 	{
-		const QString cmd = cmdlst[0];
-		parse(cmd, cmdlst.mid(1, -1));
+		const QString cmd = command[0];
+		const QList<QString> arg = command.mid(1, -1);
+		parse(cmd, arg);
 	}
 }
 
@@ -75,41 +74,3 @@ void Parser::nullHandler(const QList<QString> &)
 {
 }
 
-QList<QString> Parser::tokenize(const QString &cmd) const
-{
-	QList<QString> token;
-
-	int pos = 0;
-	while (hasToken(cmd, pos))
-	{
-		token.append(nextToken(cmd, pos));
-	}
-
-	return token;
-}
-
-bool Parser::hasToken(const QString &cmd, int &pos) const
-{
-	for (; pos < cmd.length(); pos++)
-	{
-		if (cmd.at(pos) != ' ')
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
-QString Parser::nextToken(const QString &cmd, int &pos) const
-{
-	const bool quoted = cmd.at(pos) == '"';
-	const char endchar = quoted ? '"' : ' ';
-	const int start = quoted ? pos+1 : pos;
-	const int idx = cmd.indexOf(endchar, start);
-	const int end = idx >= 0 ? idx : cmd.length();
-	Q_ASSERT(end > start);
-	pos = quoted ? end+1 : end;
-	const int length = end-start;
-	return cmd.mid(start, length);
-}

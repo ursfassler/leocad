@@ -12,9 +12,15 @@ INCLUDEPATH += ../
 SOURCES += main.cpp \
     ParserTest.cpp \
     ../Parser.cpp \
-    ParserReceiver.cpp
+    ParserReceiver.cpp \
+    TokenizerTest.cpp \
+    ../Tokenizer.cpp \
+    TokenizerReceiver.cpp
 
 HEADERS += \
     ParserTest.hpp \
     ../Parser.hpp \
-    ParserReceiver.hpp
+    ParserReceiver.hpp \
+    TokenizerTest.hpp \
+    ../Tokenizer.hpp \
+    TokenizerReceiver.hpp

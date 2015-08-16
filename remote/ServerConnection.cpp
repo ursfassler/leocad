@@ -9,6 +9,8 @@ ServerConnection::ServerConnection(QObject *parent) :
 	QObject::connect(&mSocket, SIGNAL(connected()), this, SLOT(connected()));
 	QObject::connect(&mSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
+	QObject::connect(&mTokenizer, SIGNAL(tokens(QList<QString>)), &mParser, SLOT(parse(QList<QString>)));
+
 	QObject::connect(&mParser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), this, SIGNAL(add(std::string,std::string,std::array<int,3>,int)));
 	QObject::connect(&mParser, SIGNAL(clear()), this, SIGNAL(clear()));
 }
@@ -38,7 +40,7 @@ void ServerConnection::readyRead()
 	{
 		const QString line = mSocket.readLine().trimmed();
 		qDebug() << line;
-		mParser.parse(line);
+		mTokenizer.tokenize(line);
 	}
 }
 

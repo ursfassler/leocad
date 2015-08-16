@@ -2,6 +2,7 @@
 #define SERVERCONNECTION_HPP
 
 #include "Parser.hpp"
+#include "Tokenizer.hpp"
 
 #include <QObject>
 #include <QTcpSocket>
@@ -27,6 +28,7 @@ class ServerConnection : public QObject
 
 	private:
 		QTcpSocket mSocket;
+		Tokenizer mTokenizer;
 		Parser mParser;
 
 };

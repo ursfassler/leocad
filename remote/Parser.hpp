@@ -6,10 +6,7 @@
 #include <QHash>
 #include <QList>
 
-#include <functional>
 #include <array>
-
-class ParserTest;
 
 class Parser : public QObject
 {
@@ -23,20 +20,13 @@ class Parser : public QObject
 		void clear();
 
 	public slots:
-		void parse(QString command);
+		void parse(const QList<QString> &command);
 
 	private:
 		void parse(const QString &command, const QList<QString> &arg);
 		void cmdAdd(const QList<QString> &cmd);
 		void cmdClear(const QList<QString> &cmd);
 		void nullHandler(const QList<QString> &cmd);
-
-		QList<QString> tokenize(const QString &cmd) const;
-		bool hasToken(const QString &cmd, int &pos) const;
-		QString nextToken(const QString &cmd, int &pos) const;
-
-		friend ParserTest;
-
 };
 
 #endif // PARSER_HPP
