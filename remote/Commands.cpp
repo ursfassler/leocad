@@ -17,7 +17,7 @@ uint CmdHello::argumentCount() const
 
 void CmdHello::parse(const QStringList &arg) const
 {
-	output().hello(arg[0].toStdString(), arg[1].toStdString());
+	output().hello(arg[0], arg[1]);
 }
 
 
@@ -71,7 +71,7 @@ void CmdAdd::parse(const QStringList &args) const
 
 	const std::array<int,3> pos = { intValues[0], intValues[1], intValues[2] };
 
-	output().add(type.toStdString(), color.toStdString(), pos, intValues[3]);
+	output().add(type, color, pos, intValues[3]);
 }
 
 QList<int> CmdAdd::parseIntValues(const QStringList &args, const QStringList &argNames) const
@@ -99,6 +99,6 @@ QList<int> CmdAdd::parseIntValues(const QStringList &args, const QStringList &ar
 void CmdAdd::sendIntError(QString argName, QString text) const
 {
 	const QString msg = "command add expects integer for " + argName + ", got " + text;
-	output().error(msg.toStdString());
+	output().error(msg);
 }
 

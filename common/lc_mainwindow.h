@@ -188,7 +188,7 @@ public:
 	QAction* mActions[LC_NUM_COMMANDS];
 
 public slots:
-	void addPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation);
+	void addPiece(const QString &type, const QString &color, const std::array<int,3> &position, int rotation);
 	void clearPieces();
 
 protected slots:
@@ -211,11 +211,11 @@ protected:
 	void SplitView(Qt::Orientation Orientation);
 	void ShowPrintDialog();
 
-	int colorIndex(const std::string &color) const;
+	int colorIndex(const QString &color) const;
 	bool isKnownPiece(const PieceInfo &piece) const;
 	lcVector3 pieceOffset(const PieceInfo &piece) const;
-	PieceInfo *findPiece(const std::string &type) const;
-	lcPiece *createPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation) const;
+	PieceInfo *findPiece(const QString &type) const;
+	lcPiece *createPiece(const QString &type, const QString &color, const std::array<int,3> &position, int rotation) const;
 
 	View* mActiveView;
 	lcArray<View*> mViews;

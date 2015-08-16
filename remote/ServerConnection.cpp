@@ -11,8 +11,10 @@ ServerConnection::ServerConnection(QObject *parent) :
 
 	QObject::connect(&mTokenizer, SIGNAL(tokens(QList<QString>)), &mParser, SLOT(parse(QList<QString>)));
 
-	QObject::connect(&mParser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), this, SIGNAL(add(std::string,std::string,std::array<int,3>,int)));
+	QObject::connect(&mParser, SIGNAL(add(QString,QString,std::array<int,3>,int)), this, SIGNAL(add(QString,QString,std::array<int,3>,int)));
 	QObject::connect(&mParser, SIGNAL(clear()), this, SIGNAL(clear()));
+	QObject::connect(&mParser, SIGNAL(error(QString)), this, SLOT(parseError(QString)));
+	QObject::connect(&mParser, SIGNAL(hello(QString,QString)), this, SLOT(hello(QString,QString)));
 }
 
 void ServerConnection::connect(const QString &hostName, quint16 port)
@@ -39,8 +41,17 @@ void ServerConnection::readyRead()
 	while (mSocket.canReadLine())
 	{
 		const QString line = mSocket.readLine().trimmed();
-		qDebug() << line;
 		mTokenizer.tokenize(line);
 	}
+}
+
+void ServerConnection::parseError(const QString &msg)
+{
+	qDebug() << msg;
+}
+
+void ServerConnection::hello(const QString &sub, const QString &from)
+{
+	qDebug() << ("hello " + sub + " " + from);
 }
 

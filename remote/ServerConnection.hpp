@@ -16,7 +16,7 @@ class ServerConnection : public QObject
 		void connect(const QString &hostName, quint16 port);
 
 	signals:
-		void add(const std::string &type, const std::string &color, const std::array<int,3> &pos, int rotation);
+		void add(const QString &type, const QString &color, const std::array<int,3> &pos, int rotation);
 		void clear();
 
 	public slots:
@@ -25,6 +25,9 @@ class ServerConnection : public QObject
 		void socketError(QAbstractSocket::SocketError error);
 		void connected();
 		void readyRead();
+
+		void parseError(const QString &msg);
+		void hello(const QString &sub, const QString &from);
 
 	private:
 		QTcpSocket mSocket;

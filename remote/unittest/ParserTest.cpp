@@ -7,10 +7,10 @@ void ParserTest::setUp()
 	receiver = new ParserReceiver();
 	parser = new Parser();
 
-	QObject::connect(parser, SIGNAL(error(std::string)), receiver, SLOT(error(std::string)));
+	QObject::connect(parser, SIGNAL(error(QString)), receiver, SLOT(error(QString)));
 	QObject::connect(parser, SIGNAL(nop()), receiver, SLOT(nop()));
-	QObject::connect(parser, SIGNAL(hello(std::string,std::string)), receiver, SLOT(hello(std::string,std::string)));
-	QObject::connect(parser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), receiver, SLOT(add(std::string,std::string,std::array<int,3>,int)));
+	QObject::connect(parser, SIGNAL(hello(QString,QString)), receiver, SLOT(hello(QString,QString)));
+	QObject::connect(parser, SIGNAL(add(QString,QString,std::array<int,3>,int)), receiver, SLOT(add(QString,QString,std::array<int,3>,int)));
 	QObject::connect(parser, SIGNAL(clear()), receiver, SLOT(clear()));
 }
 
@@ -26,7 +26,7 @@ void ParserTest::cmd_nop()
 {
 	parser->parse({});
 
-	CPPUNIT_ASSERT_EQUAL(std::string("nop"), receiver->command);
+	CPPUNIT_ASSERT_EQUAL(std::string("nop"), receiver->command.toStdString());
 }
 
 void ParserTest::cmd_hello()
@@ -68,8 +68,8 @@ void ParserTest::argCountErrorMsg_4_9()
 void ParserTest::send_error_on_wrong_argument_count()
 {
 	parser->parse("clear", {"this"});
-	CPPUNIT_ASSERT_EQUAL(std::string("error"), receiver->command);
-	CPPUNIT_ASSERT_EQUAL(std::string("command clear expects 0 arguments, got 1"), receiver->errorMsg);
+	CPPUNIT_ASSERT_EQUAL(std::string("error"), receiver->command.toStdString());
+	CPPUNIT_ASSERT_EQUAL(std::string("command clear expects 0 arguments, got 1"), receiver->errorMsg.toStdString());
 }
 
 void ParserTest::unknownCommandMsg()
@@ -87,8 +87,8 @@ void ParserTest::unknownCommandMsg_with_arguments()
 void ParserTest::send_error_on_on_unknown_cmd()
 {
 	parser->parse("lala", {});
-	CPPUNIT_ASSERT_EQUAL(std::string("error"), receiver->command);
-	CPPUNIT_ASSERT_EQUAL(std::string("unknown command: lala"), receiver->errorMsg);
+	CPPUNIT_ASSERT_EQUAL(std::string("error"), receiver->command.toStdString());
+	CPPUNIT_ASSERT_EQUAL(std::string("unknown command: lala"), receiver->errorMsg.toStdString());
 }
 
 

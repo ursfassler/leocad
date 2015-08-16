@@ -10,10 +10,10 @@ class CommandParserOutput : public QObject
 {
 		Q_OBJECT
 	signals:
-		void error(const std::string &msg);
+		void error(const QString &msg);
 		void nop();
-		void hello(const std::string &sub, const std::string &whom);
-		void add(const std::string &type, const std::string &color, const std::array<int,3> &pos, int rotation);
+		void hello(const QString &sub, const QString &whom);
+		void add(const QString &type, const QString &color, const std::array<int,3> &pos, int rotation);
 		void clear();
 };
 

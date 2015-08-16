@@ -5,7 +5,7 @@ ParserReceiver::ParserReceiver(QObject *parent) : QObject(parent)
 
 }
 
-void ParserReceiver::error(const std::string &msg)
+void ParserReceiver::error(const QString &msg)
 {
 	this->command = "error";
 	this->errorMsg = msg;
@@ -16,14 +16,14 @@ void ParserReceiver::nop()
 	this->command = "nop";
 }
 
-void ParserReceiver::hello(const std::string &sub, const std::string &whom)
+void ParserReceiver::hello(const QString &sub, const QString &whom)
 {
 	this->command = "hello";
 	this->sub = sub;
 	this->whom = whom;
 }
 
-void ParserReceiver::add(const std::string &type, const std::string &color, const std::array<int,3> &pos, int rotation)
+void ParserReceiver::add(const QString &type, const QString &color, const std::array<int,3> &pos, int rotation)
 {
 	this->command = "add";
 	this->type = type;

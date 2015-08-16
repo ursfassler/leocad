@@ -53,14 +53,14 @@ void Parser::parse(const QString &command, const QList<QString> &arg)
 	if (parser == nullptr)
 	{
 		const QString msg = unknownCommandMsg(command, arg);
-		error(msg.toStdString());
+		error(msg);
 		return;
 	}
 
 	if (arg.size() != int(parser->argumentCount()))
 	{
 		const QString msg = argCountErrorMsg(command, parser->argumentCount(), arg.size());
-		error(msg.toStdString());
+		error(msg);
 		return;
 	}
 

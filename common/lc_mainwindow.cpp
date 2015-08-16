@@ -982,9 +982,9 @@ void lcMainWindow::ShowPrintDialog()
 		Print(&Printer);
 }
 
-int lcMainWindow::colorIndex(const std::string &color) const
+int lcMainWindow::colorIndex(const QString &color) const
 {
-	return mColors.value(QString::fromStdString(color), 0);
+	return mColors.value(color, 0);
 }
 
 bool lcMainWindow::isKnownPiece(const PieceInfo &piece) const
@@ -997,10 +997,10 @@ lcVector3 lcMainWindow::pieceOffset(const PieceInfo &piece) const
 	return lcVector3(30, 10, 24);
 }
 
-PieceInfo *lcMainWindow::findPiece(const std::string &type) const
+PieceInfo *lcMainWindow::findPiece(const QString &type) const
 {
 	lcArray<PieceInfo*> pieces;
-	lcGetPiecesLibrary()->SearchPieces(type.c_str(), pieces);
+	lcGetPiecesLibrary()->SearchPieces(type.toStdString().c_str(), pieces);
 
 	for (int i = 0; i < pieces.GetSize(); i++)
 	{
@@ -1013,7 +1013,7 @@ PieceInfo *lcMainWindow::findPiece(const std::string &type) const
 	return nullptr;
 }
 
-lcPiece *lcMainWindow::createPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation) const
+lcPiece *lcMainWindow::createPiece(const QString &type, const QString &color, const std::array<int,3> &position, int rotation) const
 {
 	PieceInfo *piece = findPiece(type);
 	if (piece == nullptr)
@@ -1034,7 +1034,7 @@ lcPiece *lcMainWindow::createPiece(const std::string &type, const std::string &c
 	return Piece;
 }
 
-void lcMainWindow::addPiece(const std::string &type, const std::string &color, const std::array<int,3> &position, int rotation)
+void lcMainWindow::addPiece(const QString &type, const QString &color, const std::array<int,3> &position, int rotation)
 {
 	lcPiece *Piece = createPiece(type, color, position, rotation);
 	if (Piece != nullptr)
