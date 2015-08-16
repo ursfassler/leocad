@@ -43,7 +43,7 @@ void ClientConnector::newConnection()
 
 		const QCoreApplication *inst = QApplication::instance();
 		const QString whoami = inst->applicationName() + " " + inst->applicationVersion();
-		socket->write(("hello from " + whoami + "\n").toUtf8());
+		socket->write(("hello from \"" + whoami + "\"\n").toUtf8());
 	}
 }
 

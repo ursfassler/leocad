@@ -13,6 +13,8 @@ class ParserTest : public CPPUNIT_NS::TestFixture
 
 		CPPUNIT_TEST(cmd_nop);
 
+		CPPUNIT_TEST(cmd_hello);
+
 		CPPUNIT_TEST(add);
 
 		CPPUNIT_TEST(cmd_clear);
@@ -25,6 +27,8 @@ class ParserTest : public CPPUNIT_NS::TestFixture
 		void tearDown();
 
 		void cmd_nop();
+
+		void cmd_hello();
 
 		void add();
 

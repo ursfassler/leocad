@@ -24,7 +24,11 @@ void Parser::parse(const QList<QString> &command)
 
 void Parser::parse(const QString &command, const QList<QString> &arg)
 {
-	if (command == "add")
+	if (command == "hello")
+	{
+		cmdHello(arg);
+	}
+	else if (command == "add")
 	{
 		cmdAdd(arg);
 	}
@@ -36,6 +40,16 @@ void Parser::parse(const QString &command, const QList<QString> &arg)
 	{
 		nullHandler(arg);
 	}
+}
+
+void Parser::cmdHello(const QList<QString> &cmd)
+{
+	if (cmd.size() != 2)
+	{
+		return;
+	}
+
+	hello(cmd[0].toStdString(), cmd[1].toStdString());
 }
 
 void Parser::cmdAdd(const QList<QString> &cmd)

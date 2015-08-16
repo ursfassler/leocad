@@ -16,6 +16,7 @@ class Parser : public QObject
 
 	signals:
 		void nop();
+		void hello(const std::string &sub, const std::string &whom);
 		void add(const std::string &type, const std::string &color, const std::array<int,3> &pos, int rotation);
 		void clear();
 
@@ -24,6 +25,7 @@ class Parser : public QObject
 
 	private:
 		void parse(const QString &command, const QList<QString> &arg);
+		void cmdHello(const QList<QString> &cmd);
 		void cmdAdd(const QList<QString> &cmd);
 		void cmdClear(const QList<QString> &cmd);
 		void nullHandler(const QList<QString> &cmd);

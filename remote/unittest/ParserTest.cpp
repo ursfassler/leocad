@@ -6,6 +6,7 @@ void ParserTest::setUp()
 	parser = new Parser();
 
 	QObject::connect(parser, SIGNAL(nop()), receiver, SLOT(nop()));
+	QObject::connect(parser, SIGNAL(hello(std::string,std::string)), receiver, SLOT(hello(std::string,std::string)));
 	QObject::connect(parser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), receiver, SLOT(add(std::string,std::string,std::array<int,3>,int)));
 	QObject::connect(parser, SIGNAL(clear()), receiver, SLOT(clear()));
 }
@@ -23,6 +24,15 @@ void ParserTest::cmd_nop()
 	parser->parse({});
 
 	CPPUNIT_ASSERT_EQUAL(std::string("nop"), receiver->command);
+}
+
+void ParserTest::cmd_hello()
+{
+	parser->parse({"hello", "from", "Parser Unit Test"});
+
+	CPPUNIT_ASSERT_EQUAL(std::string("hello"), receiver->command);
+	CPPUNIT_ASSERT_EQUAL(std::string("from"), receiver->sub);
+	CPPUNIT_ASSERT_EQUAL(std::string("Parser Unit Test"), receiver->whom);
 }
 
 void ParserTest::add()

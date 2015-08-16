@@ -30,7 +30,7 @@ void ServerConnection::connected()
 {
 	const QCoreApplication *inst = QApplication::instance();
 	const QString whoami = inst->applicationName() + " " + inst->applicationVersion();
-	mSocket.write(("hello from " + whoami + "\n").toUtf8());
+	mSocket.write(("hello from \"" + whoami + "\"\n").toUtf8());
 	qDebug() << "connected";
 }
 
