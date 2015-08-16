@@ -14,11 +14,13 @@ void Parser::parse(QString command)
 
 	if (cmdlst.empty())
 	{
-		return;
+		nop();
 	}
-
-	const QString cmd = cmdlst[0];
-	parse(cmd, cmdlst.mid(1, -1));
+	else
+	{
+		const QString cmd = cmdlst[0];
+		parse(cmd, cmdlst.mid(1, -1));
+	}
 }
 
 void Parser::parse(const QString &command, const QList<QString> &arg)
@@ -69,7 +71,7 @@ void Parser::cmdClear(const QList<QString> &cmd)
 	clear();
 }
 
-void Parser::nullHandler(const QList<QString> &cmd)
+void Parser::nullHandler(const QList<QString> &)
 {
 }
 

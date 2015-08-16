@@ -10,7 +10,8 @@ is textual, a client like telnet is all you need.
 
 ## Syntax
     Line      = Command NEWLINE
-    Command   = Clear | Add
+    Command   = Nop | Clear | Add
+    Nop       =
     Clear     = "clear"
     Add       = "add" Type Color Position Angle
     Type      = String

@@ -5,6 +5,7 @@ void ParserTest::setUp()
 	receiver = new ParserReceiver();
 	parser = new Parser();
 
+	QObject::connect(parser, SIGNAL(nop()), receiver, SLOT(nop()));
 	QObject::connect(parser, SIGNAL(add(std::string,std::string,std::array<int,3>,int)), receiver, SLOT(add(std::string,std::string,std::array<int,3>,int)));
 	QObject::connect(parser, SIGNAL(clear()), receiver, SLOT(clear()));
 }
@@ -97,6 +98,13 @@ void ParserTest::tokenize_string_with_spaces()
 	const QList<QString> tokens = parser->tokenize("\"hello world\"");
 	CPPUNIT_ASSERT_EQUAL(1, tokens.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("hello world"), tokens[0].toStdString());
+}
+
+void ParserTest::cmd_nop()
+{
+	parser->parse("");
+
+	CPPUNIT_ASSERT_EQUAL(std::string("nop"), receiver->command);
 }
 
 void ParserTest::add()

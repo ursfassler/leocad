@@ -24,6 +24,8 @@ class ParserTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST(tokenize_ignore_spaces_at_end);
 		CPPUNIT_TEST(tokenize_string_with_spaces);
 
+		CPPUNIT_TEST(cmd_nop);
+
 		CPPUNIT_TEST(add);
 		CPPUNIT_TEST(add_with_quoted_type);
 		CPPUNIT_TEST(add_with_quoted_color);
@@ -49,6 +51,8 @@ class ParserTest : public CPPUNIT_NS::TestFixture
 		void tokenize_ignore_spaces_at_front();
 		void tokenize_ignore_spaces_at_end();
 		void tokenize_string_with_spaces();
+
+		void cmd_nop();
 
 		void add();
 		void add_with_quoted_type();
