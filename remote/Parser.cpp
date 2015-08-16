@@ -37,7 +37,7 @@ void Parser::parse(const QList<QString> &command)
 {
 	if (command.empty())
 	{
-		nop();
+		emitNop();
 	}
 	else
 	{
@@ -53,14 +53,14 @@ void Parser::parse(const QString &command, const QList<QString> &arg)
 	if (parser == nullptr)
 	{
 		const QString msg = unknownCommandMsg(command, arg);
-		error(msg);
+		emitError(msg);
 		return;
 	}
 
 	if (arg.size() != int(parser->argumentCount()))
 	{
 		const QString msg = argCountErrorMsg(command, parser->argumentCount(), arg.size());
-		error(msg);
+		emitError(msg);
 		return;
 	}
 

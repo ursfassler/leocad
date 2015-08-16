@@ -9,6 +9,13 @@
 class CommandParserOutput : public QObject
 {
 		Q_OBJECT
+	public:
+		void emitError(const QString &msg);
+		void emitNop();
+		void emitHello(const QString &sub, const QString &whom);
+		void emitAdd(const QString &type, const QString &color, const std::array<int,3> &pos, int rotation);
+		void emitClear();
+
 	signals:
 		void error(const QString &msg);
 		void nop();
