@@ -8,7 +8,7 @@ void BaseCmdTest::setUp()
 
 	QObject::connect(output, SIGNAL(error(QString)), receiver, SLOT(error(QString)));
 	QObject::connect(output, SIGNAL(nop()), receiver, SLOT(nop()));
-	QObject::connect(output, SIGNAL(hello(QString,QString)), receiver, SLOT(hello(QString,QString)));
+	QObject::connect(output, SIGNAL(hello(QString,QString,QString)), receiver, SLOT(hello(QString,QString,QString)));
 	QObject::connect(output, SIGNAL(add(QString,QString,std::array<int,3>,int)), receiver, SLOT(add(QString,QString,std::array<int,3>,int)));
 	QObject::connect(output, SIGNAL(clear()), receiver, SLOT(clear()));
 }
@@ -36,16 +36,17 @@ void CmdHelloTest::command()
 
 void CmdHelloTest::argumentCount()
 {
-	CPPUNIT_ASSERT_EQUAL(uint(2), parser->argumentCount());
+	CPPUNIT_ASSERT_EQUAL(uint(3), parser->argumentCount());
 }
 
 void CmdHelloTest::parse()
 {
-	parser->parse({"from", "Parser Unit Test"});
+	parser->parse({"plate", "black", "Parser Unit Test"});
 
 	CPPUNIT_ASSERT_EQUAL(std::string("hello"), receiver->command.toStdString());
-	CPPUNIT_ASSERT_EQUAL(std::string("from"), receiver->sub.toStdString());
-	CPPUNIT_ASSERT_EQUAL(std::string("Parser Unit Test"), receiver->whom.toStdString());
+	CPPUNIT_ASSERT_EQUAL(std::string("plate"), receiver->plate.toStdString());
+	CPPUNIT_ASSERT_EQUAL(std::string("black"), receiver->color.toStdString());
+	CPPUNIT_ASSERT_EQUAL(std::string("Parser Unit Test"), receiver->server.toStdString());
 }
 
 

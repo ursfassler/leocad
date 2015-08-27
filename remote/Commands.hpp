@@ -12,7 +12,7 @@ class CmdHello : public CommandParser
 
 		QString commmand() const;
 		uint argumentCount() const;
-		void parse(const QStringList &arg) const;
+		void parse(QStringList arg) const;
 };
 
 class CmdClear : public CommandParser
@@ -22,7 +22,7 @@ class CmdClear : public CommandParser
 
 		QString commmand() const;
 		uint argumentCount() const;
-		void parse(const QStringList &arg) const;
+		void parse(QStringList arg) const;
 };
 
 class CmdAdd : public CommandParser
@@ -32,10 +32,10 @@ class CmdAdd : public CommandParser
 
 		QString commmand() const;
 		uint argumentCount() const;
-		void parse(const QStringList &arg) const;
+		void parse(QStringList arg) const;
 
 	private:
-		QList<int> parseIntValues(const QStringList &args, const QStringList &argNames) const;
+		QList<int> parseIntValues(QStringList args, QStringList argNames) const;
 		void sendIntError(QString argName, QString text) const;
 };
 

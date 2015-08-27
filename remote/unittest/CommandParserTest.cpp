@@ -24,7 +24,7 @@ uint TestCommandParser::argumentCount() const
 	return 42;
 }
 
-void TestCommandParser::parse(const QStringList &) const
+void TestCommandParser::parse(QStringList) const
 {
 }
 

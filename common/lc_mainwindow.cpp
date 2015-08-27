@@ -18,6 +18,8 @@
 #include "lc_library.h"
 #include "lc_colors.h"
 
+#include <iostream>
+
 lcMainWindow* gMainWindow;
 
 lcMainWindow::lcMainWindow()
@@ -1039,7 +1041,18 @@ lcPiece *lcMainWindow::createPiece(const QString &type, const QString &color, co
 	return Piece;
 }
 
-void lcMainWindow::addPiece(const QString &type, const QString &color, const std::array<int,3> &position, int rotation)
+void lcMainWindow::hello(QString plate, QString color, QString serverName)
+{
+	std::cout << "hello from " << serverName.toStdString() << std::endl;
+	if (plate != "plate12x12")
+	{
+		std::cerr << "unknown plate: " << plate.toStdString() << ", use 12*12" << std::endl;
+	}
+	mBaseColor = color;
+	clearPieces();
+}
+
+void lcMainWindow::addPiece(QString type, QString color, const std::array<int,3> &position, int rotation)
 {
 	lcPiece *Piece = createPiece(type, color, position, rotation);
 	if (Piece != nullptr)
@@ -1053,7 +1066,20 @@ void lcMainWindow::clearPieces()
 {
 	lcGetActiveModel()->SelectAllPieces();
 	lcGetActiveModel()->DeleteSelectedObjects();
+	addBasePlate();
 }
+
+void lcMainWindow::addBasePlate()
+{
+  std::array<int,3> pos;
+  pos[0] = 0;
+  pos[1] = 0;
+  pos[2] = -1;
+  addPiece("3028", mBaseColor, pos, 0);
+  pos[1] = 6;
+  addPiece("3028", mBaseColor, pos, 0);
+}
+
 
 // todo: call dialogs directly
 #include "lc_qimagedialog.h"

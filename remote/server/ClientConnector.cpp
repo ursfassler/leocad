@@ -42,8 +42,9 @@ void ClientConnector::newConnection()
 		clientNumberChanged(mClients.size());
 
 		const QCoreApplication *inst = QApplication::instance();
-		const QString whoami = inst->applicationName() + " " + inst->applicationVersion();
-		socket->write(("hello from \"" + whoami + "\"\n").toUtf8());
+		QString whoami = inst->applicationName() + " " + inst->applicationVersion();
+		whoami.replace(' ', '_');
+		socket->write(("hello plate12x12 white " + whoami + "\n").toUtf8());
 	}
 }
 

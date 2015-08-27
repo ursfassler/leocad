@@ -9,7 +9,7 @@ void ParserTest::setUp()
 
 	QObject::connect(parser, SIGNAL(error(QString)), receiver, SLOT(error(QString)));
 	QObject::connect(parser, SIGNAL(nop()), receiver, SLOT(nop()));
-	QObject::connect(parser, SIGNAL(hello(QString,QString)), receiver, SLOT(hello(QString,QString)));
+	QObject::connect(parser, SIGNAL(hello(QString,QString,QString)), receiver, SLOT(hello(QString,QString,QString)));
 	QObject::connect(parser, SIGNAL(add(QString,QString,std::array<int,3>,int)), receiver, SLOT(add(QString,QString,std::array<int,3>,int)));
 	QObject::connect(parser, SIGNAL(clear()), receiver, SLOT(clear()));
 }

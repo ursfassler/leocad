@@ -9,15 +9,15 @@ ServerConnection::ServerConnection(QObject *parent) :
 	QObject::connect(&mSocket, SIGNAL(connected()), this, SLOT(connected()));
 	QObject::connect(&mSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
-	QObject::connect(&mTokenizer, SIGNAL(tokens(QList<QString>)), &mParser, SLOT(parse(QList<QString>)));
+	QObject::connect(&mTokenizer, SIGNAL(tokens(QStringList)), &mParser, SLOT(parse(QStringList)));
 
+	QObject::connect(&mParser, SIGNAL(hello(QString,QString,QString)), this, SIGNAL(hello(QString,QString,QString)));
 	QObject::connect(&mParser, SIGNAL(add(QString,QString,std::array<int,3>,int)), this, SIGNAL(add(QString,QString,std::array<int,3>,int)));
 	QObject::connect(&mParser, SIGNAL(clear()), this, SIGNAL(clear()));
 	QObject::connect(&mParser, SIGNAL(error(QString)), this, SLOT(parseError(QString)));
-	QObject::connect(&mParser, SIGNAL(hello(QString,QString)), this, SLOT(hello(QString,QString)));
 }
 
-void ServerConnection::connect(const QString &hostName, quint16 port)
+void ServerConnection::connect(QString hostName, quint16 port)
 {
 	qDebug() << "connect to " << hostName << port;
 	mSocket.connectToHost(hostName, port);
@@ -31,8 +31,9 @@ void ServerConnection::socketError(QAbstractSocket::SocketError error)
 void ServerConnection::connected()
 {
 	const QCoreApplication *inst = QApplication::instance();
-	const QString whoami = inst->applicationName() + " " + inst->applicationVersion();
-	mSocket.write(("hello from \"" + whoami + "\"\n").toUtf8());
+	QString whoami = inst->applicationName() + " " + inst->applicationVersion();
+	whoami.replace(' ', '_');
+	mSocket.write(("hello from " + whoami + "\n").toUtf8());
 	qDebug() << "connected";
 }
 
@@ -45,13 +46,7 @@ void ServerConnection::readyRead()
 	}
 }
 
-void ServerConnection::parseError(const QString &msg)
+void ServerConnection::parseError(QString msg)
 {
 	qDebug() << msg;
 }
-
-void ServerConnection::hello(const QString &sub, const QString &from)
-{
-	qDebug() << ("hello " + sub + " " + from);
-}
-

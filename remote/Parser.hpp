@@ -25,14 +25,14 @@ class Parser : public CommandParserOutput
 		CommandParser *getCmdParser(QString cmd);
 
 	public slots:
-		void parse(const QList<QString> &command);
+		void parse(QStringList command);
 
 	private:
 		QSet<CommandParser*> mCmdParser;
 
-		void parse(const QString &command, const QList<QString> &arg);
+		void parse(QString command, QStringList arg);
 
-		QString unknownCommandMsg(const QString &command, const QList<QString> &arg) const;
+		QString unknownCommandMsg(QString command, QStringList arg) const;
 		QString argCountErrorMsg(QString command, int expected, int received) const;
 
 		friend ParserTest;

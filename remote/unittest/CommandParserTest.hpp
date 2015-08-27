@@ -14,7 +14,7 @@ class TestCommandParser : public CommandParser
 
 		QString commmand() const;
 		uint argumentCount() const;
-		void parse(const QStringList &arg) const;
+		void parse(QStringList arg) const;
 
 	private:
 		bool &mDestructorCalled;

@@ -33,7 +33,7 @@ CommandParser *Parser::getCmdParser(QString cmd)
 	return nullptr;
 }
 
-void Parser::parse(const QList<QString> &command)
+void Parser::parse(QStringList command)
 {
 	if (command.empty())
 	{
@@ -42,12 +42,12 @@ void Parser::parse(const QList<QString> &command)
 	else
 	{
 		const QString cmd = command[0];
-		const QList<QString> arg = command.mid(1, -1);
+		const QStringList arg = command.mid(1, -1);
 		parse(cmd, arg);
 	}
 }
 
-void Parser::parse(const QString &command, const QList<QString> &arg)
+void Parser::parse(QString command, QStringList arg)
 {
 	CommandParser *parser = getCmdParser(command);
 	if (parser == nullptr)
@@ -67,7 +67,7 @@ void Parser::parse(const QString &command, const QList<QString> &arg)
 	parser->parse(arg);
 }
 
-QString Parser::unknownCommandMsg(const QString &command, const QList<QString> &arg) const
+QString Parser::unknownCommandMsg(QString command, QStringList arg) const
 {
 	QString msg = "unknown command: " + command;
 	foreach (const QString &itr, arg)

@@ -2,6 +2,7 @@
 #define TOKENIZERRECEIVER_HPP
 
 #include <QObject>
+#include <QStringList>
 
 class TokenizerReceiver : public QObject
 {
@@ -9,10 +10,10 @@ class TokenizerReceiver : public QObject
 	public:
 
 	public slots:
-		void tokens(const QList<QString> &list);
+		void tokens(QStringList list);
 
 	public:
-		QList<QString> token;
+		QStringList token;
 
 };
 

@@ -12,12 +12,12 @@ QString CmdHello::commmand() const
 
 uint CmdHello::argumentCount() const
 {
-	return 2;
+	return 3;
 }
 
-void CmdHello::parse(const QStringList &arg) const
+void CmdHello::parse(QStringList arg) const
 {
-	output().emitHello(arg[0], arg[1]);
+	output().emitHello(arg[0], arg[1], arg[2]);
 }
 
 
@@ -36,7 +36,7 @@ uint CmdClear::argumentCount() const
 	return 0;
 }
 
-void CmdClear::parse(const QStringList &) const
+void CmdClear::parse(QStringList) const
 {
 	output().emitClear();
 }
@@ -57,7 +57,7 @@ uint CmdAdd::argumentCount() const
 	return 6;
 }
 
-void CmdAdd::parse(const QStringList &args) const
+void CmdAdd::parse(QStringList args) const
 {
 	const QString type = args[0];
 	const QString color = args[1];
@@ -74,7 +74,7 @@ void CmdAdd::parse(const QStringList &args) const
 	output().emitAdd(type, color, pos, intValues[3]);
 }
 
-QList<int> CmdAdd::parseIntValues(const QStringList &args, const QStringList &argNames) const
+QList<int> CmdAdd::parseIntValues(QStringList args, QStringList argNames) const
 {
 	if (args.size() != argNames.size())
 	{

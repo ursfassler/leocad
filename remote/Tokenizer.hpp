@@ -2,6 +2,8 @@
 #define TOKENIZER_HPP
 
 #include <QObject>
+#include <QStringList>
+
 
 class TokenizerTest;
 
@@ -9,14 +11,12 @@ class Tokenizer : public QObject
 {
 		Q_OBJECT
 	signals:
-		void tokens(const QList<QString> &list) const;
+		void tokens(const QStringList &list) const;
 
 	public slots:
-		void tokenize(const QString &cmd) const;
+		void tokenize(QString cmd) const;
 
 	private:
-		bool hasToken(const QString &cmd, int &pos) const;
-		QString nextToken(const QString &cmd, int &pos) const;
 
 		friend TokenizerTest;
 };

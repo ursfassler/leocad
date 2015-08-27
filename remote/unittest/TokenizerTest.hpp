@@ -12,9 +12,6 @@ class TokenizerTest : public CPPUNIT_NS::TestFixture
 {
 		CPPUNIT_TEST_SUITE( TokenizerTest );
 
-		CPPUNIT_TEST(nextToken_string);
-		CPPUNIT_TEST(nextToken_quoted_string);
-
 		CPPUNIT_TEST(tokenize_empty);
 		CPPUNIT_TEST(tokenize_whitespaces);
 		CPPUNIT_TEST(tokenize_single_string);
@@ -24,16 +21,13 @@ class TokenizerTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST(tokenize_ignore_multiple_spaces);
 		CPPUNIT_TEST(tokenize_ignore_spaces_at_front);
 		CPPUNIT_TEST(tokenize_ignore_spaces_at_end);
-		CPPUNIT_TEST(tokenize_string_with_spaces);
+		CPPUNIT_TEST(tokenize_string_with_spaces_is_not_possible);
 
 		CPPUNIT_TEST_SUITE_END();
 
 	public:
 		void setUp();
 		void tearDown();
-
-		void nextToken_string();
-		void nextToken_quoted_string();
 
 		void tokenize_empty();
 		void tokenize_whitespaces();
@@ -44,7 +38,7 @@ class TokenizerTest : public CPPUNIT_NS::TestFixture
 		void tokenize_ignore_multiple_spaces();
 		void tokenize_ignore_spaces_at_front();
 		void tokenize_ignore_spaces_at_end();
-		void tokenize_string_with_spaces();
+		void tokenize_string_with_spaces_is_not_possible();
 
 	private:
 		Tokenizer *tokenizer = nullptr;

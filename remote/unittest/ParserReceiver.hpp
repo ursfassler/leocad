@@ -14,10 +14,9 @@ class ParserReceiver : public QObject
 
 		QString errorMsg;
 
-		QString sub;
-		QString whom;
-
 		QString command;
+		QString plate;
+		QString server;
 		QString type;
 		QString color;
 		int x;
@@ -28,10 +27,10 @@ class ParserReceiver : public QObject
 	signals:
 
 	public slots:
-		void error(const QString &msg);
+		void error(QString msg);
 		void nop();
-		void hello(const QString &sub, const QString &whom);
-		void add(const QString &type, const QString &color, const std::array<int,3> &pos, int rotation);
+		void hello(QString plate, QString color, QString serverName);
+		void add(QString type, QString color, const std::array<int,3> &pos, int rotation);
 		void clear();
 
 };

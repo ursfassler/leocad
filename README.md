@@ -9,18 +9,21 @@ With this version, LeoCAD starts a TCP server on port 29994. Since the interface
 is textual, a client like telnet is all you need.
 
 ## Syntax
-    Line      = Command NEWLINE
+    Line      = Command Newline
     Command   = Nop | Hello | Clear | Add
     Nop       =
-    Hello     = "hello" "from" Name
-    Name      = String
+    Hello     = "hello" Plate Color Server
+    Plate     = "plate12x12"
+    Server    = String
     Clear     = "clear"
     Add       = "add" Type Color Position Angle
-    Type      = String
-    Color     = String
+    Type      = "3001" | "3003"
+    Color     = "black" | "blue" | "green" | "red" | "brown" | "yellow" | "white"
     Position  = INTEGER INTEGER INTEGER
-    Angle     = INTEGER
-    String    = STRING | ("\"" {STRING | WHITESPACE} "\"")
+    Angle     = "0" | "90" | "180" | "270"
+    String    = Symbol { Symbol }
+    Symbol    = 'a..z' | 'A..Z' | '0..9' | "-" | "_" | "." | "*" | "@" | "%" | "&"
+    Newline   = "\n" | "\r" | "\n\r" | "\r\n"
 
 ### Examples
 
@@ -28,13 +31,13 @@ Connect to the running LeoCAD server:
 
     telnet 127.0.0.1 29994
 
-Add a brick at the center with a rotation of 90 degree:
+Add a 4*2 brick at the center with a rotation of 90 degree:
 
     add 3001 red 0 0 0 90
 
-Add the same brick on top of the last:
+Add a 2*2 brick on top of the last:
 
-    add "Brick 2 x 4" blue -1 0 1 0
+    add 3003 blue -1 0 1 0
 
 And remove all
 
@@ -44,10 +47,8 @@ And remove all
 
 Only a subset of bricks are supported. These are:
 
-* 3001, "Brick 2 x 4"
-* 3003, "Brick 2 x 2"
-* 3028, "Plate 6 x 12"
-* 3867, "Baseplate 16 x 16"
+* 3001, 2*4
+* 3003, 2*2
 
 Only a subset of colors are supported. These are
 

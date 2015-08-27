@@ -1,6 +1,6 @@
 #include "CommandParser.hpp"
 
-void CommandParserOutput::emitError(const QString &msg)
+void CommandParserOutput::emitError(QString msg)
 {
 	error(msg);
 }
@@ -10,12 +10,12 @@ void CommandParserOutput::emitNop()
 	nop();
 }
 
-void CommandParserOutput::emitHello(const QString &sub, const QString &whom)
+void CommandParserOutput::emitHello(QString plate, QString color, QString serverName)
 {
-	hello(sub, whom);
+	hello(plate, color, serverName);
 }
 
-void CommandParserOutput::emitAdd(const QString &type, const QString &color, const std::array<int,3> &pos, int rotation)
+void CommandParserOutput::emitAdd(QString type, QString color, const std::array<int,3> &pos, int rotation)
 {
 	add(type, color, pos, rotation);
 }

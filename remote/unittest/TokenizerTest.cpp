@@ -5,7 +5,7 @@ void TokenizerTest::setUp()
 	receiver = new TokenizerReceiver();
 	tokenizer = new Tokenizer();
 
-	QObject::connect(tokenizer, SIGNAL(tokens(QList<QString>)), receiver, SLOT(tokens(QList<QString>)));
+	QObject::connect(tokenizer, SIGNAL(tokens(QStringList)), receiver, SLOT(tokens(QStringList)));
 }
 
 void TokenizerTest::tearDown()
@@ -14,22 +14,6 @@ void TokenizerTest::tearDown()
 	tokenizer = nullptr;
 	delete receiver;
 	receiver = nullptr;
-}
-
-void TokenizerTest::nextToken_string()
-{
-	int pos = 0;
-	const QString token = tokenizer->nextToken("hallo  ", pos);
-	CPPUNIT_ASSERT_EQUAL(std::string("hallo"), token.toStdString());
-	CPPUNIT_ASSERT_EQUAL(5, pos);
-}
-
-void TokenizerTest::nextToken_quoted_string()
-{
-	int pos = 0;
-	const QString token = tokenizer->nextToken("\"hello world\"  ", pos);
-	CPPUNIT_ASSERT_EQUAL(std::string("hello world"), token.toStdString());
-	CPPUNIT_ASSERT_EQUAL(13, pos);
 }
 
 void TokenizerTest::tokenize_empty()
@@ -97,9 +81,10 @@ void TokenizerTest::tokenize_ignore_spaces_at_end()
 	CPPUNIT_ASSERT_EQUAL(std::string("x"), receiver->token[0].toStdString());
 }
 
-void TokenizerTest::tokenize_string_with_spaces()
+void TokenizerTest::tokenize_string_with_spaces_is_not_possible()
 {
 	tokenizer->tokenize("\"hello world\"");
-	CPPUNIT_ASSERT_EQUAL(1, receiver->token.size());
-	CPPUNIT_ASSERT_EQUAL(std::string("hello world"), receiver->token[0].toStdString());
+	CPPUNIT_ASSERT_EQUAL(2, receiver->token.size());
+	CPPUNIT_ASSERT_EQUAL(std::string("\"hello"), receiver->token[0].toStdString());
+	CPPUNIT_ASSERT_EQUAL(std::string("world\""), receiver->token[1].toStdString());
 }

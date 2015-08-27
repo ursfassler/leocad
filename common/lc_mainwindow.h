@@ -188,7 +188,8 @@ public:
 	QAction* mActions[LC_NUM_COMMANDS];
 
 public slots:
-	void addPiece(const QString &type, const QString &color, const std::array<int,3> &position, int rotation);
+	void hello(QString plate, QString color, QString serverName);
+	void addPiece(QString type, QString color, const std::array<int,3> &position, int rotation);
 	void clearPieces();
 
 protected slots:
@@ -259,6 +260,8 @@ protected:
 
 	QHash<QString,int>	mColors;
 	QHash<QString,lcVector3> mPieceOffset;
+	QString mBaseColor;
+	void addBasePlate();
 };
 
 extern class lcMainWindow* gMainWindow;
